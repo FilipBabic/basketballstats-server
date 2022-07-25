@@ -11,7 +11,8 @@ exports.getAllLeagues = (req, res) => {
                     leagueID: doc.id,
                     leagueName: doc.data().leagueName,
                     userHandle: doc.data().userHandle,
-                    createdAt: doc.data().createdAt
+                    createdAt: doc.data().createdAt,
+                    logoUrl: doc.data().logoUrl,
                 });
             });
             return res.json(leagues);
@@ -77,9 +78,13 @@ exports.leagueStandings = (req, res) => {
             data.forEach(doc => {
                 standings.push({
                     teamName: doc.id,
+                    image: doc.data().image,
                     points: doc.data().points,
-                    gp: doc.data().gp,
-                    gw: doc.data().gw,
+                    p: doc.data().seasons[0].stats[0],
+                    gw: doc.data().seasons[0].stats[1],
+                    gl: doc.data().seasons[0].stats[2],
+                    ps: doc.data().seasons[0].stats[3],
+                    pr: doc.data().seasons[0].stats[4],
                     rank: rankCount++
                 });
             });

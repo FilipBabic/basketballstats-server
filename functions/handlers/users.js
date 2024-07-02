@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
             }
         })
         .then((data) => {
-            console.log(data.user.uid);
+            console.log("user data backend", data.user.uid, data);
             userId = data.user.uid;
             return data.user.getIdToken();
         })

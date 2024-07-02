@@ -13,6 +13,13 @@ exports.getAllLeagues = (req, res) => {
                     userHandle: doc.data().userHandle,
                     createdAt: doc.data().createdAt,
                     logoUrl: doc.data().logoUrl,
+                    country: doc.data().country,
+                    region: doc.data().region,
+                    about: doc.data().about,
+                    seasonStatus: doc.data().status,
+                    statisticians: doc.data().statisticians,
+                    owner: doc.data().owner,
+                    isPro: doc.data().isPro
                 });
             });
             return res.json(leagues);
@@ -23,7 +30,15 @@ exports.getAllLeagues = (req, res) => {
 exports.createLeague = (req, res) => {
     const newLeague = {
         leagueName: req.body.leagueName,
-        userHandle: req.user.handle,
+        userHandle: req.user.email,
+        owner: req.user.email,
+        about: req.body.about || "",
+        country: req.body.country,
+        region: req.body.region,
+        logoUrl: req.body.logoUrl || "defined logo url",
+        status: req.body.status || "regular",
+        isPro: req.body.isPro || false,
+        statisticians: req.body.statisticians || [`${req.user.email}`],
         createdAt: new Date().toISOString()
     };
     const leagueID = newLeague.leagueName.split(' ').join('').toLowerCase()
@@ -34,7 +49,7 @@ exports.createLeague = (req, res) => {
             } else {
                 db.doc(`/leagues/${leagueID}`).set(newLeague)
                     .then(doc => {
-                        return res.status(200).json({ message: `document ${leagueID} created successfully` });
+                        return res.status(200).json({ message: `League Name ${newLeague.leagueName} with document id: ${leagueID} created successfully` });
                     })
                     .catch(err => {
                         res.status(500).json('something went wrong');
@@ -85,6 +100,17 @@ exports.leagueStandings = (req, res) => {
                     gl: doc.data().seasons[0].stats[2],
                     ps: doc.data().seasons[0].stats[3],
                     pr: doc.data().seasons[0].stats[4],
+                    pr2: doc.data().seasons[0].stats[5],
+                    pr3: doc.data().seasons[0].stats[6],
+                    pr4: doc.data().seasons[0].stats[7],
+                    pr5: doc.data().seasons[0].stats[8],
+                    pr6: doc.data().seasons[0].stats[9],
+                    pr7: doc.data().seasons[0].stats[10],
+                    pr8: doc.data().seasons[0].stats[11],
+                    pr9: doc.data().seasons[0].stats[12],
+                    pr10: doc.data().seasons[0].stats[13],
+                    pr11: doc.data().seasons[0].stats[14],
+                    pr12: doc.data().seasons[0].stats[15],
                     rank: rankCount++
                 });
             });

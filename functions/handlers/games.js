@@ -124,13 +124,17 @@ exports.getAllGamesForLeague = (req, res) => {
         .then(data => {
             data.forEach(doc => {
                 let game = {
+                    gameID: doc.id,
                     location: doc.data().location,
                     time: doc.data().time,
                     firstTeam: doc.data().firstTeam.name,
-                    secondTeam: doc.data().secondTeam.name,
                     firstScore: doc.data().firstTeam.points,
+                    FTplayers: doc.data().firstTeam.players,
+                    FTstats: doc.data().firstTeam.teamStats,
+                    secondTeam: doc.data().secondTeam.name,
                     secondScore: doc.data().secondTeam.points,
-                    gameID: doc.id
+                    STplayers: doc.data().secondTeam.players,
+                    STstats: doc.data().secondTeam.teamStats
                 }
                 gamesData.push(game);
             })
